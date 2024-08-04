@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <title>Horn thing</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+
+</head>
+
+<body>
+    <header class="container">
+        <h1>Horn thing</h1>
+        <p>Description</p>
+    </header>
+
+    <main class="container">
+        <h2>Contact list</h2>
+        <div class="overflow-auto">
+
+            <table class="striped">
+                <thread>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone number</th>
+                        <th scope="col">Action</th>
+
+                    <tr>
+                </thread>
+                <tbody id="contact_list">
+
+
+                    {% for i in contact_list: %}
+                    <tr>
+                        <th scope="col">{{ i["name"] }}</th>
+                        <th scope="col">{{ i["phoneNumber"] }}</th>
+                        
+                        <th scope="col"><button style="height: 50%;" class="contrast" id ="{{ i['phoneNumber'] }}" onclick="delete_contact(this.id)" class="remove_contact">Remove</button></th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Add new contact</h2>
+            <form action="/update_form" method="get">
+                <div class="grid">
+                    <label for="name">
+                        Contact Name
+                        <input type="text" id="name" name="name" aria-label="Contact name" placeholder="Contact Name"
+                            required>
+                    </label>
+                    <label for="phone">
+                        Phone number
+                        <input type="tel" id="phone" name="phoneNumber" pattern="+48-[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                            required placeholder="+48 123 456 789" aria-label="Phone number">
+                    </label>
+                    <label for="add_contact">
+                        </br>
+                        <button type="submit">Add Contact</button>
+                    </label>
+            </form>
+        </div>
+        </div>
+
+
+    </main>
+
+    <main class="container">
+        <h2>Message input field</h2>
+        <form action="/update_form" method="get">
+            <textarea type="text" id="text" name="message" placeholder="My custom message" required>{{message}}</textarea>
+            <button type="submit">Save changes</button>
+        </form>
+    </main>
+
+    <main class="container">
+        <div class="grid">
+            <h2>Logger table</h2>
+            <form action="/clear_log" method="get">
+                <button type="submit" style="width: 30%;">Clear</button>
+            </form>
+        </div>
+        <div class="overflow-auto" style="max-height: 100;  ">
+            <table class="striped" id="logs">
+                <thread>
+                    <tr>  
+                        <th scope="col">#</th>
+                        <th scope="col">Log Level</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Info</th>
+                    <tr>
+                </thread>
+                <tbody id  = "tbody" >
+                    <!-- <tr>
+                        <th scope="col">1</th>
+                        <th scope="col">INFO</th>
+                        <th scope="col">02.08.2012</th>
+                        <th scope="col">12:34:12</th>
+                        <th scope="col">Some cool stuff happened</th>
+                    <tr> -->
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>
