@@ -64,7 +64,8 @@ def log():
 
 @app.route("/get_logs", methods=["GET"])
 def get_logs():
-    return log_storage, 200
+    count = request.args.get("count", default=0)
+    return log_storage[int(count):], 200
 
 
 @app.route("/clear_log", methods=["GET"])
