@@ -52,8 +52,12 @@ def log():
 
     if message is not None:
         time = datetime.now().strftime("%H:%M:%S")
-        log_storage.append(Log(level=level, date = date.today(), time=time, message=message))
+        date = datetime.now().strftime("%d/%m/%Y")
+        
+        log_storage.append(Log(level=level, date = date, time=time, message=message))
+        
         return "ok", 200
+    
     return "error", 400
     
 
@@ -61,9 +65,6 @@ def log():
 @app.route("/get_logs", methods=["GET"])
 def get_logs():
     global log_storage
-    time = datetime.now().strftime("%H:%M:%S")
-    date = datetime.now().strftime("%d/%m/%Y")
-
     return log_storage, 200
 
 

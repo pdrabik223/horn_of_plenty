@@ -13,12 +13,11 @@ function delete_contact(id) {
     });
 
 }
-setInterval(log_updater, 1000);
+setInterval(log_updater, 5000);
 function log_updater() {
 
     $.get('/get_logs', function (data) {        
         var table = document.getElementById("logs");
-        console.log(data)
         for (let i = table.rows.length - 2; i < data.length; i++) {
             
             var row = table.insertRow(1);
