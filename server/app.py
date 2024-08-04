@@ -45,15 +45,15 @@ def status():
 
 @app.route("/log", methods=["GET"])
 def log():
-    global log_storage
 
     level = request.args.get("level", "INFO")
-    message = request.args.get("message")
+    message = request.args.get("message", None)
 
     if message is not None:
         time = datetime.now().strftime("%H:%M:%S")
         date = datetime.now().strftime("%d/%m/%Y")
         
+        global log_storage
         log_storage.append(Log(level=level, date = date, time=time, message=message))
         
         return "ok", 200
@@ -64,7 +64,6 @@ def log():
 
 @app.route("/get_logs", methods=["GET"])
 def get_logs():
-    global log_storage
     return log_storage, 200
 
 
@@ -72,8 +71,7 @@ def get_logs():
 def clear_log():
     global log_storage
     log_storage = []
-    
-    print("here")
+
     return redirect("/")
 
 
