@@ -19,12 +19,10 @@ class Log:
     message: str
 
 
-log_storage: List[Log] = [
-   
-    
-]
+log_storage: List[Log] = []
 
-
+def convert_password(password:str):
+    return "*" * len(password)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -34,8 +32,9 @@ def home():
 
         contact_list = data["contactList"]
         message = data["message"]
-
-    return render_template("index.html", contact_list = contact_list, message = message), 200
+        wifi_list = [{"name":wifi["name"],"password":convert_password(wifi["password"]) } for wifi in data["wifiList"]]
+        
+    return render_template("index.html", contact_list = contact_list, message = message, wifi_list=wifi_list), 200
 
 
 @app.route("/status", methods=["GET"])
@@ -68,6 +67,16 @@ def get_logs():
     return log_storage[int(count):], 200
 
 
+@app.route("/get_wifi_info", methods=["GET"])
+def get_wifi_info():
+    access_key = request.args.get("access_key", default=None)
+    if access_key is None or access_key != "DPYSfvktxWnFEoDqK891":
+        return "error", 401
+    
+    with open("app_config.json") as f:
+        data = json.load(f)        
+        return data["wifiList"], 200
+    
 @app.route("/clear_log", methods=["GET"])
 def clear_log():
     global log_storage
@@ -80,6 +89,9 @@ def clear_log():
 def update_form():
     name = request.args.get("name", default=None)
     phone_number = request.args.get("phoneNumber", default=None)
+    wifi_name = request.args.get("wifiName", default=None) 
+    wifi_password = request.args.get("wifiPassword", default=None) 
+
     message = request.args.get("message", default=None)
 
     with open("app_config.json") as f:
@@ -95,6 +107,15 @@ def update_form():
         and len(phone_number) != 0
     ):
         data["contactList"].append({"name": name, "phoneNumber": phone_number})
+        
+    elif (
+        wifi_name is not None
+        and len(wifi_name) != 0
+        and wifi_password is not None
+        and len(wifi_password) != 0
+    ):
+        data["wifiList"].append({"name": wifi_name, "password": wifi_password})
+        
     else:
         return "error", 400
 
@@ -107,7 +128,7 @@ def update_form():
 @app.route("/remove_contact", methods=["GET"])
 def remove_contact():
     phone_number = request.args.get("phoneNumber")
-    if phone_number is None and len(phone_number) == 0:
+    if phone_number is None or len(phone_number) == 0:
         return "error", 400
 
     ids_removed = []
@@ -127,6 +148,28 @@ def remove_contact():
         
     return ids_removed, 200
 
+@app.route("/remove_wifi", methods=["GET"])
+def remove_wifi():
+    name = request.args.get("name")
+    if name is None or len(name) == 0:
+        return "error", 400
+
+    ids_removed = []
+    new_wifi_list = []
+    with open("app_config.json") as f:
+        data = json.load(f)
+
+        for id, wifi in enumerate(data["wifiList"]):  
+            if wifi["name"] != name:
+                new_wifi_list.append(wifi)
+            else:
+                ids_removed.append(id)
+        data["wifiList"] = new_wifi_list
+        
+    with open("app_config.json", "w") as f: 
+        json.dump(data, f)
+        
+    return ids_removed, 200
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8080)

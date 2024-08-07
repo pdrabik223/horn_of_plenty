@@ -13,6 +13,22 @@ function delete_contact(id) {
     });
 
 }
+
+
+function delete_wifi(id) {
+    $.get('/remove_wifi?name=' + id, function (data) {
+
+        if (data.length > 0) {
+            var table = document.getElementById("wifi_list");
+
+            for (let i = 0; i < data.length; i++) {
+                table.deleteRow(data[i]);
+            }
+
+        }
+    });
+
+}
 setInterval(log_updater, 1000);
 function log_updater() {
 

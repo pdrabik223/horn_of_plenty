@@ -1,5 +1,7 @@
 # horn_of_plenty
-Side project - dont thing to hard about it 
+The motivation: ![image](motivation.png)
+https://wiki.dfrobot.com/Fermion_MEMS_Microphone_Sensor_SKU_SEN0487
+https://www.waveshare.com/wiki/Li-polymer_Battery_HAT
 
 ## Docker 
 1. Build
