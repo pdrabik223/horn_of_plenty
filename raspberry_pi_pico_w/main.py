@@ -6,9 +6,9 @@ import gc
 from machine import Pin, ADC, PWM
 import _thread
 
-URL = "http://192.168.0.122:8080"
+# URL = "http://192.168.0.122:8080"
 ACCESS_KEY = "DPYSfvktxWnFEoDqK891"
-# URL = "https://dev.randomscience.org"
+URL = "https://dev.randomscience.org"
 
 RESISTOR = Pin(18,Pin.OUT ) 
 RESISTOR.toggle()
