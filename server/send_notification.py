@@ -13,11 +13,11 @@ def send_sms(phone_numbers: List[str], message: str) -> bool:
 
     for number in phone_numbers:
         print(f"DEBUG sending '{message}' to number {number}")
-        # message = client.messages.create(
-        # from_='+17865743633',
-        # body=message,
-        # to=number
-        # )
+        message = client.messages.create(
+        from_='+17865743633',
+        body=message,
+        to=number
+        )
     return True
 
 

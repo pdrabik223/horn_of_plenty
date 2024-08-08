@@ -4,6 +4,8 @@ import logging
 from typing import List
 from flask import Flask, json, redirect, render_template, request
 
+from send_notification import send_sms
+
 logging.basicConfig(
     format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M"
 )
@@ -37,6 +39,17 @@ def home():
     return render_template("index.html", contact_list = contact_list, message = message, wifi_list=wifi_list), 200
 
 
+def send_notification():
+        
+    with open("app_config.json") as f:
+        data = json.load(f)
+
+        contact_list = [contact["phoneNumber"] for contact in data["contactList"]]
+        message = data["message"]
+        send_sms(contact_list,message)
+        
+    return "ok", 200
+
 @app.route("/status", methods=["GET"])
 def status():
     return "ok", 200
@@ -54,6 +67,9 @@ def log():
         
         global log_storage
         log_storage.append(Log(level=level, date = date, time=time, message=message))
+        
+        if level == "ACTIVATE":
+            send_notification()
         
         return "ok", 200
     
