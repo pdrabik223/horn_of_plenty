@@ -14,7 +14,6 @@ function delete_contact(id) {
 
 }
 
-
 function delete_wifi(id) {
     $.get('/remove_wifi?name=' + id, function (data) {
 
@@ -30,18 +29,24 @@ function delete_wifi(id) {
 
 }
 setInterval(log_updater, 1000);
-function log_updater() {
+
+async function log_updater() {
 
     var table = document.getElementById("logs");
     url = '/get_logs?count=0'
-    if (table.rows.length != NaN){
-    
-        url = '/get_logs?count='+String(table.rows.length - 2)
+
+    if (table.rows.length != NaN) {
+
+        url = '/get_logs?count=' + String(table.rows.length - 2)
     }
     
-    $.get(url, function (data) {        
+    const response = await fetch(url);
+    
+    data = response.json()
+    console.log(data)
+    $.get(url, function (data) {
         for (let i = 0; i < data.length; i++) {
-            
+
             var row = table.insertRow(1);
 
             var cell1 = row.insertCell(0);
