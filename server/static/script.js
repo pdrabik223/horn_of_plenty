@@ -28,10 +28,10 @@ function delete_wifi(id) {
     });
 
 }
-setInterval(log_updater, 1000);
+// setInterval(log_updater, 1000);
 
 async function log_updater() {
-
+    while (2>1){
     var table = document.getElementById("logs");
     url = '/get_logs?count=0'
 
@@ -41,7 +41,9 @@ async function log_updater() {
     }
     
     const response = await fetch(url);
-    
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     data = response.json()
     console.log(data)
     $.get(url, function (data) {
@@ -63,5 +65,6 @@ async function log_updater() {
         }
 
     });
+}
 };
 
