@@ -5,14 +5,21 @@ https://www.waveshare.com/wiki/Li-polymer_Battery_HAT
 
 The 3d model of horn:
 ![horn v13](https://github.com/user-attachments/assets/0fb87d76-b1a9-45e9-8c74-b97f2b190473)
+![alt text](ec2320e2-66a5-4aaf-af42-1675388f602c.jpg)
+![alt text](ce554bdc-3af6-494f-b9c0-e35705f75e8e.jpg)
 
 [Fusion 360 model link](https://a360.co/46Jb5fT)
 
+[twilio console with billing info](https://console.twilio.com/us1/billing/manage-billing/billing-overview)
+
+
 ## Docker 
+
 1. Build
 ```
 docker build . -t horn_backend:v0.1.0 
 ```
+
 2. run locally
 ```
 docker run -p 8080:8080 horn_backend:v0.1.0
